@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+	"time"
 )
 
 func invalidID1(id int) bool {
@@ -34,6 +35,11 @@ func invalidID2(id int) bool {
 }
 
 func Solve(input string, invalidID func(int) bool) int {
+	now := time.Now()
+	defer func() {
+		fmt.Printf("elapsed: %v\n", time.Since(now))
+	}()
+
 	line := common.ReadInput(input).Read()
 
 	ranges := strings.Split(line, ",")
