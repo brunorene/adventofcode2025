@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestDay01(t *testing.T) {
+func TestDay(t *testing.T) {
 	assert.Equal(t, 3, day01.Solve1("testdata/input"))
 	assert.Equal(t, 6, day01.Solve2("testdata/input"))
 }

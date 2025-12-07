@@ -3,6 +3,7 @@ package common
 import (
 	"fmt"
 	"os"
+	"strconv"
 	"time"
 )
 
@@ -60,4 +61,11 @@ func CheckError(err error) {
 	if err != nil {
 		panic(err.Error())
 	}
+}
+
+func AsInt(s string) int {
+	i, err := strconv.Atoi(s)
+	CheckError(err)
+
+	return i
 }
