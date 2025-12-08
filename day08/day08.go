@@ -3,6 +3,7 @@ package day08
 import (
 	"adventofcode2025/common"
 	"fmt"
+	"maps"
 	"math"
 	"slices"
 )
@@ -66,6 +67,36 @@ func SortSlice(p1, p2 Point) int {
 	return 0
 }
 
+func Merge(pairs map[[2]Point]struct{}) map[Point]map[Point]struct{} {
+	circuits := make(map[Point]map[Point]struct{})
+
+	for pair := range pairs {
+		circuit1, exists := circuits[pair[0]]
+		if !exists {
+			circuit1 = map[Point]struct{}{pair[0]: {}}
+		}
+
+		circuit2, exists := circuits[pair[1]]
+		if !exists {
+			circuit2 = map[Point]struct{}{pair[1]: {}}
+		}
+
+		if len(circuit1) > 0 && maps.Equal(circuit1, circuit2) {
+			continue
+		}
+
+		for point := range circuit1 {
+			circuit2[point] = struct{}{}
+		}
+
+		for box := range circuit2 {
+			circuits[box] = circuit2
+		}
+	}
+
+	return circuits
+}
+
 func Solve1(input string, size int) int {
 	var boxes []Point
 
@@ -84,31 +115,8 @@ func Solve1(input string, size int) int {
 		pairs[shortest] = struct{}{}
 	}
 
-	circuits := make(map[Point]map[Point]struct{})
-
 	fmt.Println("merging circuits")
-	for pair := range pairs {
-		circuit1, exists := circuits[pair[0]]
-		if !exists {
-			circuit1 = make(map[Point]struct{})
-		}
-
-		circuit2, exists := circuits[pair[1]]
-		if !exists {
-			circuit2 = make(map[Point]struct{})
-		}
-
-		for point := range circuit1 {
-			circuit2[point] = struct{}{}
-		}
-
-		circuit2[pair[0]] = struct{}{}
-		circuit2[pair[1]] = struct{}{}
-
-		for box := range circuit2 {
-			circuits[box] = circuit2
-		}
-	}
+	circuits := Merge(pairs)
 
 	uniqueCircuits := make([][]Point, 0, len(circuits))
 
@@ -130,37 +138,14 @@ func Solve1(input string, size int) int {
 }
 
 func allConnected(pairs map[[2]Point]struct{}, boxCount int) bool {
-	circuits := make(map[Point]map[Point]struct{})
+	circuits := Merge(pairs)
 
-	for pair := range pairs {
-		circuit1, exists := circuits[pair[0]]
-		if !exists {
-			circuit1 = make(map[Point]struct{})
-		}
-
-		circuit2, exists := circuits[pair[1]]
-		if !exists {
-			circuit2 = make(map[Point]struct{})
-		}
-
-		for point := range circuit1 {
-			circuit2[point] = struct{}{}
-		}
-
-		circuit2[pair[0]] = struct{}{}
-		circuit2[pair[1]] = struct{}{}
-
-		for box := range circuit2 {
-			circuits[box] = circuit2
-		}
-	}
-
-	if len(circuits) != boxCount {
+	if len(circuits) < boxCount {
 		return false
 	}
 
 	fmt.Println("all on circuit")
-	
+
 	for _, circuit := range circuits {
 		if len(circuit) == boxCount {
 			return true
