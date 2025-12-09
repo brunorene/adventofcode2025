@@ -1,7 +1,7 @@
 package main
 
 import (
-	"adventofcode2025/day08"
+	"adventofcode2025/day09"
 	"fmt"
 )
 
@@ -20,6 +20,8 @@ func main() {
 	// fmt.Printf("day06 - part 2: %d\n", day06.Solve2("day06/input"))
 	// fmt.Printf("day07 - part 1: %d\n", day07.Solve1("day07/input"))
 	// fmt.Printf("day07 - part 2: %d\n", day07.Solve2("day07/input"))
-	fmt.Printf("day08 - part 1: %d\n", day08.Solve1("day08/input", 1000))
-	fmt.Printf("day08 - part 2: %d\n", day08.Solve2("day08/input"))
+	// fmt.Printf("day08 - part 1: %d\n", day08.Solve1("day08/input", 1000))
+	// fmt.Printf("day08 - part 2: %d\n", day08.Solve2("day08/input"))
+	fmt.Printf("day09 - part 1: %d\n", day09.Solve1("day09/input"))
+	fmt.Printf("day09 - part 2: %d\n", day09.Solve2("day09/input"))
 }
